@@ -7,25 +7,53 @@ output:
 
 
 ## Loading and preprocessing the data
-``` {r Loading and preprocessing the data, echo=TRUE}
+
+```r
 steps_data <- read.csv("activity.csv")
 ```
 
 
 ## What is mean total number of steps taken per day?
-``` {r What is mean total number of steps taken per day?, echo=TRUE}
+
+```r
 library("ggplot2")
 qplot(steps, data = steps_data)
+```
+
+```
+## stat_bin: binwidth defaulted to range/30. Use 'binwidth = x' to adjust this.
+```
+
+![plot of chunk What is mean total number of steps taken per day?](figure/What is mean total number of steps taken per day?-1.png) 
+
+```r
 mean_steps_per_day <- mean(steps_data$steps, na.rm=TRUE)
 median <- median(steps_data$steps, na.rm=TRUE)
 ```
 The mean total number of steps per day is: 
-`r mean_steps_per_day`
-The median total number of steps per day is: `r median`
+37.3825996
+The median total number of steps per day is: 0
 
 ## What is the average daily activity pattern?
-```{r What is the average daily activity pattern?, echo=TRUE}
+
+```r
 library("dplyr")
+```
+
+```
+## 
+## Attaching package: 'dplyr'
+## 
+## The following object is masked from 'package:stats':
+## 
+##     filter
+## 
+## The following objects are masked from 'package:base':
+## 
+##     intersect, setdiff, setequal, union
+```
+
+```r
 averages <- c()
 intervals <- distinct(select(steps_data, interval))
 for (interval in intervals$interval) {
@@ -35,6 +63,11 @@ for (interval in intervals$interval) {
     averages <- c(averages, mean_steps)
 }
 qplot(x = intervals$interval, y = averages, data = steps_data, xlab = "interval", ylab = "average steps taken", geom = "line")
+```
+
+![plot of chunk What is the average daily activity pattern?](figure/What is the average daily activity pattern?-1.png) 
+
+```r
 rounded_averages <- c()
 for (average in averages) {
     rounded_avg <- round(average, digits=2)
@@ -45,11 +78,12 @@ highest_index <- match(max, rounded_averages)
 row <- steps_data[highest_index,]
 interval <- row$interval
 ```
-Interval `r interval` contains the highest number of steps.
+Interval 835 contains the highest number of steps.
 
 
 ## Imputing missing values
-``` {r Imputing missing values, echo=TRUE}
+
+```r
 values <- complete.cases(steps_data)
 incomplete <- sum(values==FALSE)
 mean_dates <- aggregate(steps ~ date, data=steps_data, 
@@ -70,14 +104,23 @@ for (i in 1:nrow(steps_data)) {
     }
 }
 qplot(steps, data = new_steps_data)
+```
+
+```
+## stat_bin: binwidth defaulted to range/30. Use 'binwidth = x' to adjust this.
+```
+
+![plot of chunk Imputing missing values](figure/Imputing missing values-1.png) 
+
+```r
 mean_steps_per_day_new_data <- mean(new_steps_data$steps)
 median_new_data <- median(new_steps_data$steps)
 ```
-There are `r incomplete` rows containing NA's.
+There are 2304 rows containing NA's.
 
 After filling in missing values with the mean number of steps taken for that date:
-The mean total number of steps per day is: `r mean_steps_per_day_new_data`
-The median total number of steps per day is: `r median_new_data`
+The mean total number of steps per day is: 35.68898
+The median total number of steps per day is: 0
 
 
 ## Are there differences in activity patterns between weekdays and weekends?
