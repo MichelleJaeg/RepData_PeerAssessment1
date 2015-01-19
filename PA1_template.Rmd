@@ -5,6 +5,9 @@ output:
     keep_md: true
 ---
 
+```{r}
+fig.path <- "figure"
+```
 
 ## Loading and preprocessing the data
 ``` {r Loading and preprocessing the data, echo=TRUE}
@@ -12,16 +15,15 @@ steps_data <- read.csv("activity.csv")
 ```
 
 
-## What is mean total number of steps taken per day?
+## What is the mean total number of steps taken per day?
 ``` {r What is mean total number of steps taken per day?, echo=TRUE}
 library("ggplot2")
 qplot(steps, data = steps_data)
 mean_steps_per_day <- mean(steps_data$steps, na.rm=TRUE)
 median <- median(steps_data$steps, na.rm=TRUE)
 ```
-The mean total number of steps per day is: 
-`r mean_steps_per_day`
-The median total number of steps per day is: `r median`
+The mean total number of steps per day is: 37.38
+The median total number of steps per day is: 0
 
 ## What is the average daily activity pattern?
 ```{r What is the average daily activity pattern?, echo=TRUE}
@@ -45,7 +47,7 @@ highest_index <- match(max, rounded_averages)
 row <- steps_data[highest_index,]
 interval <- row$interval
 ```
-Interval `r interval` contains the highest number of steps.
+Interval 835 contains the highest number of steps.
 
 
 ## Imputing missing values
@@ -73,11 +75,11 @@ qplot(steps, data = new_steps_data)
 mean_steps_per_day_new_data <- mean(new_steps_data$steps)
 median_new_data <- median(new_steps_data$steps)
 ```
-There are `r incomplete` rows containing NA's.
+There are 2304 rows containing NA's.
 
 After filling in missing values with the mean number of steps taken for that date:
-The mean total number of steps per day is: `r mean_steps_per_day_new_data`
-The median total number of steps per day is: `r median_new_data`
+The mean total number of steps per day is: 35.69
+The median total number of steps per day is: 0
 
 
-## Are there differences in activity patterns between weekdays and weekends?
+

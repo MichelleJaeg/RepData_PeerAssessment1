@@ -13,7 +13,7 @@ steps_data <- read.csv("activity.csv")
 ```
 
 
-## What is mean total number of steps taken per day?
+## What is the mean total number of steps taken per day?
 
 ```r
 library("ggplot2")
@@ -30,30 +30,13 @@ qplot(steps, data = steps_data)
 mean_steps_per_day <- mean(steps_data$steps, na.rm=TRUE)
 median <- median(steps_data$steps, na.rm=TRUE)
 ```
-The mean total number of steps per day is: 
-37.3825996
+The mean total number of steps per day is: 37.38
 The median total number of steps per day is: 0
 
 ## What is the average daily activity pattern?
 
 ```r
 library("dplyr")
-```
-
-```
-## 
-## Attaching package: 'dplyr'
-## 
-## The following object is masked from 'package:stats':
-## 
-##     filter
-## 
-## The following objects are masked from 'package:base':
-## 
-##     intersect, setdiff, setequal, union
-```
-
-```r
 averages <- c()
 intervals <- distinct(select(steps_data, interval))
 for (interval in intervals$interval) {
@@ -119,8 +102,8 @@ median_new_data <- median(new_steps_data$steps)
 There are 2304 rows containing NA's.
 
 After filling in missing values with the mean number of steps taken for that date:
-The mean total number of steps per day is: 35.68898
+The mean total number of steps per day is: 35.69
 The median total number of steps per day is: 0
 
 
-## Are there differences in activity patterns between weekdays and weekends?
+
